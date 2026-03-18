@@ -1,0 +1,196 @@
+package main
+
+import (
+	"fmt"
+	"net/http"
+)
+
+const html = `<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Redwane Ait Brahim</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      background: #000;
+      color: #fff;
+      font-family: 'Courier New', monospace;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem;
+    }
+
+    .card {
+      text-align: center;
+      padding: 3rem 4rem;
+      border: 1px solid #333;
+      border-radius: 12px;
+      max-width: 600px;
+      width: 100%;
+    }
+
+    .logo {
+      font-size: 2.8rem;
+      margin-bottom: 0.6rem;
+    }
+
+    h1 {
+      font-size: 1.7rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      color: #fff;
+      margin-bottom: 0.6rem;
+    }
+
+    .tagline {
+      font-size: 1rem;
+      color: #aaa;
+      letter-spacing: 0.06em;
+      margin-bottom: 2rem;
+    }
+
+    .tagline span {
+      color: #fff;
+      font-weight: 600;
+    }
+
+    .contact {
+      margin-bottom: 2.5rem;
+    }
+
+    a {
+      color: #fff;
+      text-decoration: none;
+      font-size: 1rem;
+      letter-spacing: 0.05em;
+      transition: opacity 0.2s;
+    }
+
+    a:hover { opacity: 0.7; }
+
+    .divider {
+      border: none;
+      border-top: 1px solid #222;
+      margin: 2rem 0;
+    }
+
+    .support-title {
+      font-size: 0.9rem;
+      color: #aaa;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      margin-bottom: 0.6rem;
+    }
+
+    .support-sub {
+      font-size: 0.95rem;
+      color: #ccc;
+      margin-bottom: 2rem;
+      line-height: 1.7;
+    }
+
+    .support-sub a {
+      color: #fff;
+      border-bottom: 1px solid #555;
+    }
+
+    .support-sub a:hover { border-color: #fff; opacity: 0.7; }
+
+    .wallets {
+      display: flex;
+      gap: 2.5rem;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .wallet {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.9rem;
+    }
+
+    .wallet-label {
+      font-size: 0.9rem;
+      color: #fff;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      font-weight: 600;
+    }
+
+    .qr {
+      background: #fff;
+      padding: 10px;
+      border-radius: 8px;
+    }
+
+    .wallet-addr {
+      font-size: 0.7rem;
+      color: #888;
+      max-width: 170px;
+      word-break: break-all;
+      line-height: 1.6;
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <div class="logo">⬡</div>
+    <h1>Redwane Ait Brahim</h1>
+    <p class="tagline">Open for <span>Software Engineer</span> &amp; <span>Data Engineer</span> positions</p>
+
+    <div class="contact">
+      <a href="mailto:redwaneaitbrahim@proton.me">redwaneaitbrahim@proton.me</a>
+    </div>
+
+    <hr class="divider" />
+
+    <p class="support-title">Can't offer a role?</p>
+    <p class="support-sub">
+      Star a repo or follow me on <a href="https://github.com/Redwane-stdy" target="_blank">GitHub</a>,
+      or send some crypto — every bit helps.
+    </p>
+
+    <div class="wallets">
+      <div class="wallet">
+        <div class="wallet-label">Ethereum</div>
+        <div class="qr" id="qr-eth"></div>
+        <div class="wallet-addr">0x5F193f01194E246DFdE5fba7f94260bC0A7d81ac</div>
+      </div>
+      <div class="wallet">
+        <div class="wallet-label">Solana</div>
+        <div class="qr" id="qr-sol"></div>
+        <div class="wallet-addr">GZP5m2TSdnNxZHVkF6cgQpJnmFgYLBuSShWZ4NbKBVvq</div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    new QRCode(document.getElementById("qr-eth"), {
+      text: "ethereum:0x5F193f01194E246DFdE5fba7f94260bC0A7d81ac",
+      width: 160, height: 160,
+      colorDark: "#000", colorLight: "#fff"
+    });
+    new QRCode(document.getElementById("qr-sol"), {
+      text: "solana:GZP5m2TSdnNxZHVkF6cgQpJnmFgYLBuSShWZ4NbKBVvq",
+      width: 160, height: 160,
+      colorDark: "#000", colorLight: "#fff"
+    });
+  </script>
+</body>
+</html>`
+
+func main() {
+	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
+		w.Header().Set("Content-Type", "text/html; charset=utf-8")
+		fmt.Fprint(w, html)
+	})
+	fmt.Println("Listening on http://localhost:8080")
+	http.ListenAndServe(":8080", nil)
+}
